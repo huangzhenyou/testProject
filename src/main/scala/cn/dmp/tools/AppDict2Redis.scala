@@ -42,7 +42,7 @@ object AppDict2Redis {
             val jedis = JedisPools.getJedis()
 
             itr.foreach(t => {
-                jedis.set(t._1, t._2)
+                jedis.set(t._1, t._2) /**ip appname*/
             })
 
             jedis.close()

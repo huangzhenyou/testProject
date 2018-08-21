@@ -44,7 +44,7 @@ object AppAnalyseRpt extends App{
     }).collect().toMap
 
 
-    // 将字典数据广播executor
+    // 将字典数据广播executor[广播变量不能更改，需要变化的则讲字典文件放在redis里]
     val broadcast = sc.broadcast(dictMap)
 
     // 读取数据
@@ -55,6 +55,7 @@ object AppAnalyseRpt extends App{
       .map(log => {
           var newAppName = log.appname
           if(!StringUtils.isNotEmpty(newAppName)) {
+              /**去广播变量里头找，如果找不到则赋值”未知“*/
               newAppName = broadcast.value.getOrElse(log.appid, "未知")
           }
 
